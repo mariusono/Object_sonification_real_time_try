@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>title</title>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.36/Tone.js"></script>
+    <script defer src="https://unpkg.com/@tonejs/ui/build/code.js"></script>
+    <!-- Add utility functions -->
+    <script defer src="utils.js"></script>
+    <!-- Add sonification classes -->
+    <script defer src="synthLoopSonification.js"></script>
+    <script defer src="droneSonification.js"></script>
+    <!-- Add tone.js script -->
+    <script defer src="script_tone_js.js"></script>
+    <!-- Add websocket script -->
+    <script defer src="script_websocket.js"></script>
+</head>
+<body>
+    <h1> Test Audio ! </h1>
+    <button id="button_1">Start Audio!</button>
+    <button id="button_2">Stop Audio!</button><br>
+
+    <!-- <h2>Global Volume</h2> -->
+
+    <!-- Gain = <i id='Gain'></i><br>
+    <input id='sliderInterval' type="range" min="0" max="10000" value="0" oninput="setGain(this.value)"><br><br>
+
+    <h2>Reverb</h2>
+    Room Size = <i id='RoomSize'></i><br>
+    <input id='sliderInterval' type="range" min="0" max="10000" value="0" oninput="setRoomSize(this.value)"><br>
+  -->
+    <h2>
+        <div id = "sse">
+            <a href = "javascript:WebSocketTest()">Run WebSocket</a>
+        </div>
+    </h2>
+    <!-- <div class="videos">
+        <video width="640" height="480" id="videoPlayer_rgb" controls="controls">
+            <source src="rgb.mp4#t=7" type="video/mp4">
+        </video>
+        <video width="640" height="480" id="videoPlayer_map2d" controls="controls">
+            <source src="map2d.mp4#t=7" type="video/mp4">
+        </video>
+    </div> -->
+</body>
+</html>
