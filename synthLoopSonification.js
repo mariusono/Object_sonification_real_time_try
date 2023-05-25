@@ -6,6 +6,9 @@ class synthLoopSonification{
         this.valPlayback = 1;
         this.valPlaybackPrev = 1;
 
+        this.playingFlag = false;
+        this.distance = 1000; // some very large value to begin with.. 
+
         this.synth = new Tone.Synth({
             oscillator: {
                 type: this.type,
@@ -13,10 +16,16 @@ class synthLoopSonification{
             }
         });
 
+        // this.loop = new Tone.Loop((time) => {
+        //     this.synth.triggerAttackRelease(220, "8n", time); // '8n' plays every 8th note at a default bpm (120).. 
+        // },"8n");
+        // this.loop.interval = '8n';
+
+
         this.loop = new Tone.Pattern((time, note) => {
-            this.synth.triggerAttackRelease(note, "8n", time); // '8n' plays every 8th note at a default bpm (120).. 
-        }, this.notePattern, "upDown");
-        this.loop.interval = '8n';
+            this.synth.triggerAttackRelease(note, "16n", time); // '8n' plays every 8th note at a default bpm (120).. 
+        },this.notePattern, "upDown");
+        this.loop.interval = '16n';
 
         this.panner = new Tone.Panner3D();
         this.panner.panningModel = 'HRTF';

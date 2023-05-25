@@ -75,7 +75,8 @@ async function readAndSendData(websocket) {
         // console.log('Decoded: seconds - '+ date.getSeconds() + ', msec - '+date.getMilliseconds()+', msec to wait - '+elapsed_msec);
         
         if(event_cnt>0){ // only start waiting after receiving the second file..
-         await sleep(Math.round(elapsed_msec));
+            await sleep(Math.round(elapsed_msec));
+            // await sleep(Math.round(3000));
         }
 
         console.log('Ros Timestamp: %d, converted to time %s, elapsed msec %d ', ts, datevalues, elapsed_msec);

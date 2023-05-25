@@ -4,6 +4,10 @@ class droneSonification {
         this.baseFreq = baseFreq;
         this.type = type;
 
+        this.playingFlag = false;
+        this.distance = 1000; // some very large value to begin with.. 
+
+
         this.volumesArray = [...Array(this.numOscillators).keys()].map(i => 1 / (i + 1));
         this.volumesArray = this.volumesArray.map(n => mag2db(n)); // db values to mag
 
@@ -20,18 +24,30 @@ class droneSonification {
                 frequency: this.baseFreq * this.baseFreqFact * i,
                 type: this.type,
                 // volume: this.initVolume,
-                volume: -60,
+                // volume: -60,
+                volume: this.volumesArray[i],
                 // detune: Math.random() * 30 - 15,
             }));
         }
+
+        this.envelope = new Tone.AmplitudeEnvelope({
+            attack: 0.05,
+            decay: 0.05,
+            sustain: 0.9,
+            release: 0.05
+        });
 
         this.panner = new Tone.Panner3D();
         this.panner.panningModel = 'HRTF';
         this.panner.setPosition(0, 0, 0);
 
         this.oscillators.forEach(o => {
-            o.connect(this.panner);
+            // o.connect(this.panner);
+            o.connect(this.envelope);
+            o.start(); // ARGHHH ! 
         });
+
+        this.envelope.connect(this.panner); // this way there is a single panner ? there always was a single panner.. 
     }
 
     setHarmonicity(v,mapInterval) {

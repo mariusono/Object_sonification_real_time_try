@@ -20,7 +20,6 @@ const freeverb = new Tone.Freeverb(0.3,5000);
 // create a gain node
 const gainNode = new Tone.Gain(0.0);
 
-
 //connect freeverb to gain
 freeverb.connect(gainNode); // synth goes to gain !
 
@@ -30,34 +29,51 @@ gainNode.toDestination();
 gainNode.gain.rampTo(db2mag(-6), 0.1);
 
 
-function setGain(v) {
-    let gainVal = linearMapping(-30.0, 10.0, 0, 10000, v); // db linear Scale
-    let gainVal_amp = 10 ** (gainVal / 20);
-    if (gainVal_amp < 0.0316 + 0.0001) { // equivalent of -30 dB + 0.0001
-        gainVal_amp = 0;
-    }
-    document.getElementById('Gain').innerText = parseFloat(gainVal).toFixed(4);
-    // gainNode.gain.value = gainVal;
-    gainNode.gain.rampTo(gainVal_amp, 0.1);
-}
-
-function setRoomSize(v) {
-    let roomSizeVal = linearMapping(0.0, 1.0, 0, 10000, v); // db linear Scale
-    freeverb.roomSize.value = roomSizeVal;
-    document.getElementById('RoomSize').innerText = parseFloat(roomSizeVal).toFixed(4);
-    // console.log(freeverb.roomSize.value );
-}
-
-function setDampening(v) {
-    let dampSize = linearMapping(0.0, 10000.0, 0, 10000, v); 
-    freeverb.dampening = dampSize;  // weird that it doesn't have .value ... 
-    document.getElementById('Dampening').innerText = parseFloat(dampSize).toFixed(4);
-    // console.log(freeverb.dampening);
-}
-
-
 // Initialize sonifiedObjects
 let sonifiedObjects = {};
+
+
+// // Try to make a global loop to go through each sonified object at a time.. 
+let loopGlobal = new Tone.Loop(loopStep, "1n");  // '1n' here sets the speed of our loop -- every 1th note
+
+count = 0;
+function loopStep(time){
+    let sonifiedObjects_keys = Object.keys(sonifiedObjects);
+    let objectsPlaying = [];
+
+    console.log(sonifiedObjects);
+
+    for (let i = 0; i<sonifiedObjects_keys.length;i++)
+    {
+        if (sonifiedObjects[sonifiedObjects_keys[i]].playingFlag)
+        {
+            // objectsPlaying[sonifiedObjects_keys[i]] = sonifiedObjects[sonifiedObjects_keys[i]];
+            objectsPlaying.push(sonifiedObjects[sonifiedObjects_keys[i]]);
+        }
+    }
+
+    console.log(objectsPlaying);
+
+    if (objectsPlaying.length > 0)
+    {
+        if (count>=objectsPlaying.length) {count = 0;};
+
+        if (objectsPlaying[count] instanceof droneSonification)
+        {
+            objectsPlaying[count].envelope.triggerAttackRelease('1n',time);
+        }
+        else if (objectsPlaying[count] instanceof synthLoopSonification)
+        {
+            objectsPlaying[count].loop.start(); // start the synthSonification loop
+            objectsPlaying[count].loop.stop('+1n'); // close it at a future time.. 
+        }
+        count = count + 1;
+    }
+}
+
+
+
+
 
 
 //attach a click listener to a play button
@@ -68,47 +84,20 @@ button_1.addEventListener("click", async () => {
     await Tone.start();
     console.log("audio is ready");
 
+    Tone.Transport.bpm.value = 60;
+
     // start the transport (i.e. the "clock" that drives the loop)
     Tone.Transport.start();
 
-    // SET THE GLOBAL BPM VAL !  
-    // Tone.Transport.bpm.value = 240; // working with '4n', i.e. quarter notes afterwards.. so equivalent to '8n' eigth notes at 120 bpm
-    // play with rampTo and change bpm ? 
+    loopGlobal.start();
 
-    // loop.start(0);
-
-    // synthLoop_instance.synth.volume.rampTo(-Infinity,0.1);
-    // drone_instance.oscillators.forEach(o => {
-    //     o.volume.rampTo(-Infinity,0.1);
-    // });
-
-    flag_audio_on_off = true;
 });
 
 button_2.addEventListener("click", async () => {
     console.log("stopping all sounds!");
 
     Tone.Transport.stop(); // this just stops the master time.. 
-    // Tone.stop(); // this just stops the master time.. 
-
-    // Stop sonified objects that are playing
-    for (var index = 0; index < Object.keys(sonifiedObjects).length; index++)
-    {                    
-        if (sonifiedObjects[unique_ids_playing[index]] instanceof synthLoopSonification){
-            sonifiedObjects[unique_ids_playing[index]].synth.volume.rampTo(-Infinity, 0.1);
-            sonifiedObjects[unique_ids_playing[index]].loop.stop();
-            sonifiedObjects[unique_ids_playing[index]].panner.disconnect(freeverb);
-        }
-        if (sonifiedObjects[unique_ids_playing[index]] instanceof droneSonification){
-            sonifiedObjects[unique_ids_playing[index]].oscillators.forEach((o, index) => { // this can be added in the class.. 
-                o.volume.rampTo(-Infinity, 1);
-                o.stop();
-            });
-            sonifiedObjects[unique_ids_playing[index]].panner.disconnect(freeverb);
-        }   
-    }
-
-    flag_audio_on_off = false;
+ 
 });
 
 

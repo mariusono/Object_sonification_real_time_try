@@ -1,8 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
-    <title>title</title>
+    <meta charset="utf-8" />
+
+    <!-- Add ROS/Websocket libraries -->
+    <script type="text/javascript" src="/usr/share/javascript/eventemitter2/eventemitter2.min.js"> </script>
+    <script type="text/javascript" src="lib/roslib.min.js"> </script>
+    <script src="lib/three.min.js"></script>
+    <script src="/usr/share/javascript/eventemitter2/eventemitter2.js"></script>
+    <script src="lib/roslib.js"></script>
+    <script src="lib/ros3d.js"></script>    
+    <!-- --------------------------- -->
+
+    <title>Real-time sonification</title>
+
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.36/Tone.js"></script>
     <script defer src="https://unpkg.com/@tonejs/ui/build/code.js"></script>
     <!-- Add utility functions -->
@@ -13,13 +24,12 @@
     <!-- Add tone.js script -->
     <script defer src="script_tone_js.js"></script>
     <!-- Add websocket script -->
-    <script defer src="script_websocket.js"></script>
+    <script defer src="script_websocket_ros.js"></script>
 </head>
 <body>
     <h1> Test Audio ! </h1>
     <button id="button_1">Start Audio!</button>
-    <button id="button_2">Stop Audio!</button>
-    <br>
+    <button id="button_2">Stop Audio!</button><br>
 
     <!-- <h2>Global Volume</h2> -->
 
@@ -35,17 +45,25 @@
             <a href = "javascript:WebSocketTest()">Run WebSocket</a>
         </div>
     </h2>
-    <div class="videos" id="videos">
-        <!-- <video width="640" height="480" id="videoPlayer_rgb" controls="controls">
+    <!-- <div class="videos">
+        <video width="640" height="480" id="videoPlayer_rgb" controls="controls">
             <source src="rgb.mp4#t=7" type="video/mp4">
         </video>
         <video width="640" height="480" id="videoPlayer_map2d" controls="controls">
             <source src="map2d.mp4#t=7" type="video/mp4">
-        </video> -->
-    </div>
-    <br>
-    <div id="span_human"></div>
-    <div id="span_walls"></div>
-    
-</body>
+        </video>
+    </div> -->
+
+
+
+  
+    <img id="img_rgb" style='height:400px; object-fit:contain' src="">
+    <img id="img_map2d" style='height:400px; object-fit:contain' src="">
+    <img id="img_walls" style='height:400px; object-fit:contain' src="">
+
+    </br>
+    <span id = "span_human"></span>  
+    <span id = "span_walls"></span>  
+
+    </body>
 </html>
