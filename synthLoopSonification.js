@@ -45,7 +45,7 @@ class synthLoopSonification{
         if (v < mapInterval[0]) v = mapInterval[0];
         if (v > mapInterval[1]) v = mapInterval[1];
 
-        this.valPlayback = exponentialMapping(0.5, 4.0, mapInterval[1], mapInterval[0], 8.0, v);
+        this.valPlayback = exponentialMapping(0.5, 3.0, mapInterval[1], mapInterval[0], 8.0, v);
 
         if (this.valPlayback !== this.valPlaybackPrev) {
             this.loop.playbackRate = this.valPlayback;
