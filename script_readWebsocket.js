@@ -5,7 +5,12 @@ const path = require('path')
 // PATH WHERE I HAVE MY JSON FILES
 
 // const DatasetPath = '/Users/mariusonofrei/UNIVERSITY/Univr_Sonification/Object_sonification_via_websocket_data/1_corridoioAltair_newHumanWs/jsons/human_workspace_jsons'
-const DatasetPath = '/Users/mariusonofrei/UNIVERSITY/Univr_Sonification/Object_sonification_via_websocket_data/1_corridoioAltair_smoothMap2d/jsons/human_workspace_jsons'
+// const DatasetPath = '/Users/mariusonofrei/UNIVERSITY/Univr_Sonification/Object_sonification_via_websocket_data/1_corridoioAltair_smoothMap2d/jsons/human_workspace_jsons'
+
+
+const DatasetPath = './1_corridoioAltair_smoothMap2d/jsons/human_workspace_jsons'
+
+
 
 // const TfMatricesPath = '1_corridoioAltair_newjsons/tf_saved'
 // Set up a port
@@ -13,7 +18,7 @@ const DatasetPath = '/Users/mariusonofrei/UNIVERSITY/Univr_Sonification/Object_s
 WebSocketServer = require('ws').Server;
 
 // define port value
-var port = 9998;
+var port = 9090;
 
 // open up websocketserver at port
 wss = new WebSocketServer({ port: port });

@@ -79,6 +79,9 @@ function loopStep(time){
         }
     }
 
+    console.log(flagAllSounds);
+    console.log(objectsPlaying);
+
     // console.log(objectsPlaying);
     if (flagAllSounds)
     {
@@ -107,7 +110,7 @@ function loopStep(time){
     }
     else
     {
-        console.log('here');
+        // console.log('here');
         if (objectsPlaying.length > 0)
         {
             if (count>=objectsPlaying.length) {count = 0;};

@@ -46,6 +46,10 @@ else {
     img_walls.id = 'img_walls';
     img_walls.style = 'height:400px; object-fit:contain';
     img_walls.src = "";
+
+    boxVideos.appendChild(img_rgb);
+    boxVideos.appendChild(img_rgb);
+    boxVideos.appendChild(img_walls);
 }
 
 
@@ -143,7 +147,7 @@ function doSonification(received_msg) {
         sonifiedObjects[unique_id].distance = distance_comp;
         
         if (sonifiedObjects[unique_id] instanceof synthLoopSonification) {
-            console.log(distance_comp);
+            // console.log(distance_comp);
         }
 
         // do tha actual update
@@ -201,7 +205,9 @@ function WebSocketTest() {
         video_rgb.play();
         video_map2d.play();
 
-        var ws = new WebSocket("ws://localhost:9998/echo");
+        var port = 9090;
+
+        var ws = new WebSocket("ws://localhost:" + port + "/echo");
 
         ws.onmessage = function (evt) {
             let received_msg = evt.data;
