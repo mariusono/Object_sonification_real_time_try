@@ -4,6 +4,8 @@
 
 // TONE.JS PART
 let flag_audio_on_off = false; // initialize global audio on/off flag
+let flagAllSounds = false;
+let flagAllSounds_reset = false;
 
 // Synth pattern:
 // Loop for synth 
@@ -38,24 +40,12 @@ let sonifiedObjects = {};
 
 count = 0;
 
-let flagAllSounds = false;
 
-const checkbox_sounds = document.getElementById("checkbox_sounds");
-
-checkbox_sounds.addEventListener("change", () => {
-    flagAllSounds = !flagAllSounds;
-    console.log(flagAllSounds);
-});
 
 let loopGlobal;
-if (flagAllSounds)
-{
-    loopGlobal = new Tone.Loop(loopStep, '16n');  // '1n' here sets the speed of our loop -- every 1th note
-}
-else
-{
-    loopGlobal = new Tone.Loop(loopStep, "1n");  // '1n' here sets the speed of our loop -- every 1th note
-}
+loopGlobal = new Tone.Loop(loopStep, "1n");  // '1n' here sets the speed of our loop -- every 1th note
+
+
 
 let intervalVal = loopGlobal.interval;
 
@@ -81,6 +71,38 @@ function loopStep(time){
 
     console.log(flagAllSounds);
     console.log(objectsPlaying);
+    console.log(objectsNotPlaying);
+
+    // make sure objects that are not playing are stopped.. 
+    for (let i = 0;i<objectsNotPlaying.length;i++)
+    {
+        if (objectsNotPlaying[i] instanceof droneSonification)
+        {
+            objectsNotPlaying[i].envelope.triggerRelease();
+        }
+        else if (objectsNotPlaying[i] instanceof synthLoopSonification)
+        {
+            objectsNotPlaying[i].loop.stop(); // start the synthSonification loop
+        }
+    }   
+
+    // if there has just been a change, stop all objects.. 
+    if (flagAllSounds_reset)
+    {
+        // make sure objects that are not playing are stopped.. 
+        for (let i = 0;i<objectsPlaying.length;i++)
+        {
+            if (objectsPlaying[i] instanceof droneSonification)
+            {
+                objectsPlaying[i].envelope.triggerRelease();
+            }
+            else if (objectsPlaying[i] instanceof synthLoopSonification)
+            {
+                objectsPlaying[i].loop.stop(); // start the synthSonification loop
+            }
+        }   
+        flagAllSounds_reset = false;
+    }
 
     // console.log(objectsPlaying);
     if (flagAllSounds)
@@ -97,18 +119,7 @@ function loopStep(time){
                 objectsPlaying[i].loop.start(); // start the synthSonification loop
                 // objectsPlaying[i].loop.stop('+'+String(loopGlobal.interval/2)); // start the synthSonification loop
             }
-        }
-        for (let i = 0;i<objectsNotPlaying.length;i++)
-        {
-            if (objectsNotPlaying[i] instanceof droneSonification)
-            {
-                objectsNotPlaying[i].envelope.triggerRelease();
-            }
-            else if (objectsNotPlaying[i] instanceof synthLoopSonification)
-            {
-                objectsNotPlaying[i].loop.stop(); // start the synthSonification loop
-            }
-        }        
+        }     
     }
     else
     {
@@ -132,6 +143,16 @@ function loopStep(time){
         }
     }
 }
+
+
+const checkbox_sounds = document.getElementById("checkbox_sounds");
+
+checkbox_sounds.addEventListener("change", () => {
+    flagAllSounds = !flagAllSounds;
+    flagAllSounds_reset = true;
+    console.log(flagAllSounds);
+});
+
 
 
 //attach a click listener to a play button
