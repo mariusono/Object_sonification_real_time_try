@@ -147,7 +147,7 @@ function doSonification(received_msg) {
         sonifiedObjects[unique_id].distance = distance_comp;
         
         if (sonifiedObjects[unique_id] instanceof synthLoopSonification) {
-            // console.log(distance_comp);
+            console.log(distance_comp);
         }
 
         // do tha actual update
@@ -155,7 +155,7 @@ function doSonification(received_msg) {
 
         if (sonifiedObjects[unique_id] instanceof synthLoopSonification) {
             // update playback rate!
-            sonifiedObjects[unique_id].setPlaybackRate(distance_comp, [0.5, 4]);
+            sonifiedObjects[unique_id].setPlaybackRate(distance_comp, [1.2, 1.6]);
 
             if (distance_comp > 4) { // just some very large value here but this can be a failsafe thing about the radius of the human workspace.. 
             // if (distance_comp > 400) { // just some very large value here but this can be a failsafe thing about the radius of the human workspace.. 

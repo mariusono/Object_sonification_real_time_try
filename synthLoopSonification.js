@@ -26,6 +26,7 @@ class synthLoopSonification{
             this.synth.triggerAttackRelease(note, "16n", time); // '8n' plays every 8th note at a default bpm (120).. 
         },this.notePattern, "upDown");
         this.loop.interval = '16n';
+        // this.loop.interval = '8n';
 
         this.panner = new Tone.Panner3D();
         this.panner.panningModel = 'HRTF';

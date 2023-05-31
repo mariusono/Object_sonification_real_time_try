@@ -90,10 +90,12 @@ function loopStep(time){
             if (objectsPlaying[i] instanceof droneSonification)
             {
                 objectsPlaying[i].envelope.triggerAttack();
+                // objectsPlaying[i].envelope.triggerRelease(('+'+String(loopGlobal.interval/2)));
             }
             else if (objectsPlaying[i] instanceof synthLoopSonification)
             {
                 objectsPlaying[i].loop.start(); // start the synthSonification loop
+                // objectsPlaying[i].loop.stop('+'+String(loopGlobal.interval/2)); // start the synthSonification loop
             }
         }
         for (let i = 0;i<objectsNotPlaying.length;i++)
