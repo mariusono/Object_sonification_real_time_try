@@ -16,14 +16,16 @@ const img_walls = document.createElement('img');
 
 
 if (doNodeJS) {
-    video_rgb.src = 'rgb.mp4#t=7';
+    // video_rgb.src = './1_corridoioAltair_smoothMap2d/videos/rgb.mp4#t=7';
+    video_rgb.src = './bagchair2_outputs/rgb.mp4'
     video_rgb.id = 'videoPlayer_rgb';
     video_rgb.controls = true;
     video_rgb.muted = false;
     video_rgb.height = 400; // in px
     // video_rgb.width = 640; // in px
 
-    video_map2d.src = 'map2d.mp4#t=7';
+    // video_map2d.src = './1_corridoioAltair_smoothMap2d/videos/map2d.mp4#t=7';
+    video_map2d.src = './bagchair2_outputs/map2d.mp4'
     video_map2d.id = 'videoPlayer_map2d';
     video_map2d.controls = true;
     video_map2d.muted = false;
