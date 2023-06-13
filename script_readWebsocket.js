@@ -8,8 +8,8 @@ const path = require('path')
 // const DatasetPath = '/Users/mariusonofrei/UNIVERSITY/Univr_Sonification/Object_sonification_via_websocket_data/1_corridoioAltair_smoothMap2d/jsons/human_workspace_jsons'
 
 
-// const DatasetPath = './1_corridoioAltair_smoothMap2d/jsons/human_workspace_jsons'
-const DatasetPath = './bagchair2_outputs/jsons/human_workspace_jsons'
+const DatasetPath = './1_corridoioAltair_smoothMap2d/jsons/human_workspace_jsons'
+// const DatasetPath = './bagchair2_outputs/jsons/human_workspace_jsons'
 
 
 
