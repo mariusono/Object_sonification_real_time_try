@@ -47,7 +47,7 @@ class droneSonification {
             o.start(); // ARGHHH ! 
         });
 
-        this.envelope.connect(this.panner); // this way there is a single panner ? there always was a single panner.. 
+        this.envelope.connect(this.panner); 
     }
 
     setHarmonicity(v,mapInterval) {

@@ -31,6 +31,7 @@ gainNode.toDestination();
 gainNode.gain.rampTo(db2mag(-6), 0.1);
 
 
+
 // Initialize sonifiedObjects
 let sonifiedObjects = {};
 
@@ -48,6 +49,14 @@ loopGlobal = new Tone.Loop(loopStep, "1n");  // '1n' here sets the speed of our 
 
 
 let intervalVal = loopGlobal.interval;
+let silenceTimePerc = 0;
+let silenceTime = intervalVal * silenceTimePerc / 100;
+
+// Set sliders.
+document.getElementById('Gain').innerText = parseFloat(-6).toFixed(4);
+document.getElementById('Interval').innerText = parseFloat(intervalVal).toFixed(4);
+document.getElementById('Silence').innerText = parseFloat(silenceTimePerc).toFixed(4);
+
 
 function loopStep(time){
     let sonifiedObjects_keys = Object.keys(sonifiedObjects);
@@ -131,13 +140,16 @@ function loopStep(time){
             if (objectsPlaying[count] instanceof droneSonification)
             {
                 // objectsPlaying[count].envelope.triggerAttackRelease('1n',time);
-                objectsPlaying[count].envelope.triggerAttackRelease(String(intervalVal),time);
+                // objectsPlaying[count].envelope.triggerAttackRelease(String(intervalVal-silenceTime),time);
+                objectsPlaying[count].envelope.triggerAttackRelease(String(intervalVal-silenceTime));
+                // console.log(silenceTime);
             }
             else if (objectsPlaying[count] instanceof synthLoopSonification)
             {
-                objectsPlaying[count].loop.start(); // start the synthSonification loop
+                objectsPlaying[count].loop.start('+0'); // start the synthSonification loop
                 // objectsPlaying[count].loop.stop('+1n'); // close it at a future time.. 
-                objectsPlaying[count].loop.stop('+'+String(intervalVal)); // close it at a future time.. 
+                objectsPlaying[count].loop.stop('+'+String(intervalVal-silenceTime)); // close it at a future time.. 
+                // console.log(silenceTime);
             }
             count = count + 1;
         }
@@ -201,6 +213,16 @@ function setLoopTime(v) {
     loopGlobal.interval = intervalVal;
 }
 
+
+function setSilenceTime(v) {
+    silenceTimePerc = linearMapping(0, 99, 0, 10000, v); // between 0 and 99%, do not use 100 as it is unstable...
+
+    document.getElementById('Silence').innerText = parseFloat(silenceTimePerc).toFixed(4);
+    // gainNode.gain.value = gainVal;
+    silenceTime = intervalVal * silenceTimePerc / 100;
+    console.log(silenceTime);
+
+}
 
 
 // Clear console after load.. 
